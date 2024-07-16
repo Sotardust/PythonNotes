@@ -43,20 +43,3 @@ class LotteryData:
     Tflag: int
     result: List[LotteryResult]
 
-
-# Load JSON data
-parsed_data = json.loads(data)
-
-
-# Convert JSON to dataclass instances
-def from_dict(data_class, data_dict):
-    if isinstance(data_dict, list):
-        return [from_dict(data_class, item) for item in data_dict]
-    elif isinstance(data_dict, dict):
-        fieldtypes = {f.name: f.type for f in data_class.__dataclass_fields__.values()}
-        return data_class(**{f: from_dict(fieldtypes[f], data_dict[f]) for f in data_dict})
-    else:
-        return data_dict
-
-
-lottery_data = from_dict(LotteryData, parsed_data)
